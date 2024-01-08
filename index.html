@@ -12,7 +12,7 @@
     <link rel ="stylesheet" href = "style.css">
 </head>
 <body>
-
+    
 
     <!-- Page content -->
     <div class="container-fluid">
@@ -22,25 +22,44 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a id="name" style="font-size: 20px; color: black;">
+                            <a id="name" style="font-size: 50px; color: black;">
                                 Aaliyah Gamble
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a id="sculpture" style="font-size: 20px; color: black;">
+                                Austin-Based
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <div style="height: 50px;"></div>
+                        </li>
+                        
+                        <li class="nav-item">
                             <a class="nav-link" href="#">
-                                Sidebar Item 2
+                                Contact Me
                             </a>
                         </li>
                         <!-- Add more sidebar items as needed -->
                     </ul>
                 </div>
             </nav>
+    
+            <!-- Rest of your HTML content -->
+        </div>
+    </div>
+    
 
             <!-- Main content area -->
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="height: 2000vh;">
-                <!-- Your page content goes here -->
                 <h2>Main Content</h2>
-                <p>Put your main content here.</p>
+                <div class="image-flexbox">
+                    <!-- Placeholder images (replace with your actual image URLs) -->
+                    <img src="image1.jpg" alt="Image 1">
+                    <img src="image2.jpg" alt="Image 2">
+                    <img src="image3.jpg" alt="Image 3">
+                    <!-- Add more images as needed -->
+                </div>
             </main>
         </div>
     </div>
@@ -49,5 +68,51 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get all images inside the flexbox
+            var images = document.querySelectorAll('.image-flexbox img');
+
+            // Add a click event listener to each image
+            images.forEach(function (image, index) {
+                image.addEventListener('click', function () {
+                    openGallery(index);
+                });
+            });
+
+            // Function to open the gallery
+            function openGallery(index) {
+                var modal = document.createElement('div');
+                modal.classList.add('image-modal');
+                modal.innerHTML = '<span class="close-btn">&times;</span><img src="' + images[index].src + '" alt="Gallery Image">';
+                document.body.appendChild(modal);
+
+                // Add a click event listener to close the gallery
+                modal.querySelector('.close-btn').addEventListener('click', function () {
+                    document.body.removeChild(modal);
+                });
+
+                // Add keyboard navigation for next and previous images
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'ArrowRight') {
+                        index = (index + 1) % images.length;
+                        updateGalleryImage(index);
+                    } else if (event.key === 'ArrowLeft') {
+                        index = (index - 1 + images.length) % images.length;
+                        updateGalleryImage(index);
+                    } else if (event.key === 'Escape') {
+                        document.body.removeChild(modal);
+                    }
+                });
+            }
+
+            // Function to update the gallery image
+            function updateGalleryImage(index) {
+                var modal = document.querySelector('.image-modal img');
+                modal.src = images[index].src;
+            }
+        });
+    </script>
 </body>
 </html>
